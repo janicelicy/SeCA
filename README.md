@@ -1,8 +1,9 @@
-# Selective Colour Restoration of Underwater Surfaces
+<p align="center"># Selective Colour Restoration of Underwater Surfaces </p>
  <p align="center">
  Chau Yi Li*, Andrea Cavallaro</br>
  Queen Mary University of London, London, United Kingdom</br>
  *chauyi.li@qmul.ac.uk</br>
+ </p>
 
 This is the repository for our Selective Colour Restoration of Underwater Surfaces (SeCA), to appear in BMVC 2023.
 
