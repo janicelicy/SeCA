@@ -48,7 +48,7 @@ for file_number =  start_point:numel(file_name_list)
         zeta = quantile(J_idx(:), 0.01); zeta = min(zeta, 1);
         zeta = max(0, zeta);
         
-        Q = adapt_to_map(J_proposed,bg, Normalised_d );
+        Q = adapt_to_map(J_proposed,bg, eta );
         L = rgb2xyz(Q);
         lum_L = (sum(sum(L(:,:,2) > 1)) ./ m/n) ;
         %% look for largest zeta
@@ -57,7 +57,7 @@ for file_number =  start_point:numel(file_name_list)
         else 
         %           %  fprintf("ahhhh....\n");
          if (zeta  > 0.05)
-             Q = adapt_to_map(lin2rgb(J_proposed),lin2rgb(bg).^zeta, Normalised_d );
+             Q = adapt_to_map(lin2rgb(J_proposed),lin2rgb(bg).^zeta, eta );
              L = rgb2xyz(Q);
              lum_L = (sum(sum(L(:,:,2) > 1)) ./ m/n) ;
              while (lum_L < 0.005)
