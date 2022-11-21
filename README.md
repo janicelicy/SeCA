@@ -24,7 +24,7 @@ https://user-images.githubusercontent.com/26412181/166123202-a08c88ec-5738-43f6-
 ## Using SeCA
  Put your test image in ./demo file and run the MATLAB file
  ```
- SeCA_BMVC
+ (matlab) SeCA_BMVC
  ```
 
 ## Citation
