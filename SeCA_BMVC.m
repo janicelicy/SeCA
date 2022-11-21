@@ -10,7 +10,7 @@ listing = dir(path);
 file_name_list =  {listing.name};
 start_point = 3 + ismember('.DS_Store',file_name_list);
 
-%% loop through input images, video sequence 650:860 start_point:numel(file_name_list)
+%% loop through input images in path
 for file_number =  start_point:numel(file_name_list) 
   file_name = file_name_list{file_number};
   I = im2double(imread(sprintf('%s/%s',path,file_name)));
@@ -18,6 +18,9 @@ for file_number =  start_point:numel(file_name_list)
   fprintf('%s\n',file_name);
   [m,n,c] = size(I);
   win_size =  floor(min(m,n)*0.01)*2 + 1;
+  %%%%%%%%
+  %% Restore along range
+  %%%%%%%%
   %% Estimate uniform background light
   [bglight,bg,~,~,final_candidate] = estimateBackground(I,file_name, ones(m,n));
   %% Estimate transmission map
@@ -35,8 +38,10 @@ for file_number =  start_point:numel(file_name_list)
             J_proposed(:,:,color) = (I(:,:,color) - bg(:,:,color))./t(:,:,color) + bg(:,:,color);
             J_proposed(:,:,color) = max(J_proposed(:,:,color),0); J_proposed(:,:,color) = min(J_proposed(:,:,color),1);
         end 
-       imwrite(J_proposed, sprintf('./results/%s_DBL.png',file_name(1:length(file_name)-4)));
-       
+       imwrite(lin2rgb(J_proposed), sprintf('./results/%s_DBL.png',file_name(1:length(file_name)-4)));
+  %%%%%%%%
+  %% Restore along depth
+  %%%%%%%%
         d = estimateTransmission(J_proposed, bg);   
         eta  = (log(d)-min(log(d(:)))) ./ (max(log(d(:))) - min(log(d(:))));    
 
@@ -55,7 +60,6 @@ for file_number =  start_point:numel(file_name_list)
         if (lum_L < 0.005)
         zeta = 1; 
         else 
-        %           %  fprintf("ahhhh....\n");
          if (zeta  > 0.05)
              Q = adapt_to_map(lin2rgb(J_proposed),lin2rgb(bg).^zeta, eta );
              L = rgb2xyz(Q);
@@ -72,7 +76,6 @@ for file_number =  start_point:numel(file_name_list)
         J_SeCA = adapt_to_map(lin2rgb(J_proposed),lin2rgb(bg).^zeta, eta ); % returns srgb
         imwrite(J_SeCA, sprintf('./results/%s_SeCA.png',file_name(1:length(file_name)-4)));
     end
-   % toc
 end
       
 
