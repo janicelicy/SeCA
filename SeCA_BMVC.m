@@ -19,11 +19,11 @@ for file_number =  start_point:numel(file_name_list)
   [m,n,c] = size(I);
   win_size =  floor(min(m,n)*0.01)*2 + 1;
   %% Estimate uniform background light
-  [bglight,bg,~,~,final_candidate] = estimate_A_ICCV(I,file_name, ones(m,n));
+  [bglight,bg,~,~,final_candidate] = estimateBackground(I,file_name, ones(m,n));
   %% Estimate transmission map
    d = estimateTransmission(I, bg);
     %% Estimate non-uniform background light 
-    [bglight,bg,MaxLocation,P] = estimate_A_ICCV(I,file_name,d);
+    [bglight,bg,MaxLocation,P] = estimateBackground(I,file_name,d);
     %% Recover image along the range
     if (bglight(1) ~= -1) 
         t = zeros(m,n,c); t(:,:,1) = d;
