@@ -76,9 +76,7 @@ function [bglight,bg,MaxLocation,Regressed_ans,final_candidate, bg2, final_with_
             Pixel_List = [Pixel_List; find(J == 1)];
         end
     
-       %% concerned CC
-      %  Pixel_List = CC.PixelIdxList{bglight_CC};
-       % 
+       
        Pixel_List = [];
         for i = 1 :CC_number
             J = CC_label == i;
@@ -90,17 +88,11 @@ function [bglight,bg,MaxLocation,Regressed_ans,final_candidate, bg2, final_with_
         final_candidate = X;
         %figure; imshow(X);
         [row, col] = ind2sub([m,n],find(X == 1)); ops = find(col > 600);
-        %col = col(ops);
-        %row = row(ops);
         link2 = log(K); link2(isinf(link2)) = 0;
         y1 = reshape(link2, [], 3);
         for c = 1:3
              mdl = fitlm( row , (y1(find(X == 1),c)) ,'RobustOpts','on');
-            % mdl = fitlm( row , link2(row, col ,c) ,'RobustOpts','on');
              Regressed_ans(c,:) = mdl.Coefficients.Estimate;
-          %   mdl
-           figure(1); scatter(row,(y1(find(X == 1),c)),colour_list{c}); hold on;
-          %  figure(4);  plotResiduals(mdl,'fitted'); hold on;
         end
        
         all_neg = 1; 
@@ -126,7 +118,7 @@ function [bglight,bg,MaxLocation,Regressed_ans,final_candidate, bg2, final_with_
         end
         mean_bglight =  bglight;
        
-        if (exist('d', 'var'))
+        if (exist('d', 'var')) % Interpolate A
              % bglight = K(max_row,max_col,:);
              bg = zeros(m,n,3); X = [1:m]' .* ones(m,n); 
             % Similar triangle
