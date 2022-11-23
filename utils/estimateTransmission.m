@@ -32,7 +32,7 @@ function T_r = estimateTransmission(I,bg)
         x = A \ b;
         d = reshape(x,[m,n]);
     else
-        d = imguidedfilter(P_init,I,'NeighborhoodSize',[15 ,15]);
+        d = imguidedfilter(P_init,I,'NeighborhoodSize',[win_size ,win_size]);
     end
     d = max(d, 0.1);
     T_r = d .* (J_max - J_min) + (J_min);  
